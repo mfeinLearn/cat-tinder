@@ -8,19 +8,53 @@ import React, {Component} from 'react'; // react is some type of JavaScript thin
 //Component is a property
 import './App.css';
 import Cats from './components/Cats'
+import DisplayCat from './components/DisplayCat'
+import cats from './cats-data'
 // is the main component that we get
 class App extends Component { // JS class inharidence pattern that is given to us to
+  constructor() {
+    super()
+    this.state = {
+      cats: []
+    }
+  }
+
+  //mocking a fetch request
+  componentDidMount(){
+    // fetch("www.mycats.com")
+    //   .then(r => r.json())
+    //   .then(cats => this.setState({cats: cats}))
+    this.setState({
+      cats: cats
+    })
+  }
   //.. basiclly inharite from
   // crete this object this new class
   // I have inharite all of its properties in terms of its functionality and all of the
   //.. things that I can do
   render() {
     //console.log("React: ",React)// react is a JavaScript
+    console.log("Rendering App")
+    // ^^^ How many times are we going go see Rendering App in console log?
+    // 2 because we initally define the state as an empty array then as soon as
+    //.. the component mountes we fire this fake fetch then we set our state to the actual array.
+    //.. so you are going to handle that initial render.
+    //.. IF YOU HAVE componentDidMountS your components are going to render and they are gonig to rerender
+    // Once the state changes that will trigger a new render
 
+    // THE REASON IT IS A DOUBLE RENDER IS BECAUSE WE ARE CHANGING THE STATE!
     return (
       <div className="App">
-        <Cats />
-        {/*console.log("Hello from our main App div")*/}
+        <h1>Welcome to Cat Tinder</h1>
+        {/*The following is one way to handle that initial load  - i know when this thing loads it is going to be an empty array*/}
+        { this.state.cats.length == 0 ?
+            "LOADING..." :
+          <div>
+            <DisplayCat cat={this.state.cats[0]} />
+            <Cats cats={this.state.cats}/>
+          </div>
+         }
+         {/*console.log("Hello from our main App div")*/}
       </div>
     );
   }
