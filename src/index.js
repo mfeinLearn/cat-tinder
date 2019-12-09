@@ -10,9 +10,9 @@ import * as serviceWorker from './serviceWorker';
 // VVV plain old js that interacts with the DOM. so the html that I have associated
 // here must have some element with an id of root (in public/index.html we find a
 // div with an id of root )
-// By default App becomes our main container component 
+// By default App becomes our main container component
 
-
+//VVV cause something to show up in the dom && rendering App
 ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

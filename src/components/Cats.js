@@ -1,23 +1,22 @@
+// Functional component
+//.. using a const and assign it to a functional expression
+
+// anonomus function expression being assigned to Cats
+
 // container component
 import React from 'react'
 import CatCard from './CatCard'
 
 // Component is a property of react
-class Cats extends React.Component {
+const Cats = ({ cats }) => {
+  const catCards = cats.map(cat => <CatCard key={cat.name} cat={cat}/>)
+  return (
+    <div className="Cats">
+      {/*Hey JavaScript grab that varable catCards and return it*/}
+      {catCards}
+    </div>
+  )
 
-
-
-
-// when you return from a render method it needs to be either a single element(we can rap the whole thing in a div and that counts as a single element ) or I can use a fragment if I want a collection or I can return an array of elements
-  render() {
-    const catCards = this.props.cats.map(cat => <CatCard key={cat.name} cat={cat}/>)
-    return (
-      <div>
-        {/*Hey JavaScript grab that varable catCards and return it*/}
-        {catCards}
-      </div>
-    )
-  }
 }
 
 export default Cats

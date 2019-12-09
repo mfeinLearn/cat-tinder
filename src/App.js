@@ -1,3 +1,4 @@
+// App is our main parent component
 import React, {Component} from 'react'; // react is some type of JavaScript thing
 // Component is a named inport
 // React is the default export from this file
@@ -46,12 +47,18 @@ class App extends Component { // JS class inharidence pattern that is given to u
     return (
       <div className="App">
         <h1>Welcome to Cat Tinder</h1>
+        {/* {} is a jsx curly bracket - run what is inside of here using JavaScript
+        red curly brackets . this is jsx telling us to run on JavaScript */}
         {/*The following is one way to handle that initial load  - i know when this thing loads it is going to be an empty array*/}
         { this.state.cats.length == 0 ?
             "LOADING..." :
           <div>
-            <DisplayCat cat={this.state.cats[0]} />
+          <div
+            className="LikedCats">Liked</div>
+            <DisplayCat
+            cat={this.state.cats[0]} />
             <Cats cats={this.state.cats}/>
+            <div className="DislidedCats">Disliked</div>
           </div>
          }
          {/*console.log("Hello from our main App div")*/}
