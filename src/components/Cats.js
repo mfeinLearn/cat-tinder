@@ -10,6 +10,7 @@ import CatCard from './CatCard'
 // Component is a property of react
 const Cats = ({ cats }) => {
   const catCards = cats.map(cat => <CatCard key={cat.name} cat={cat}/>)
+
   return (
     <div className="Cats">
       {/*Hey JavaScript grab that varable catCards and return it*/}

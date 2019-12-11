@@ -9,7 +9,10 @@ import React, {Component} from 'react'; // react is some type of JavaScript thin
 //Component is a property
 import './App.css';
 import Cats from './components/Cats'
+import CenterContainer from './components/CenterContainer'
 import DisplayCat from './components/DisplayCat'
+import LikedCats from './components/LikedCats'
+import DislikedCats from './components/DislikedCats'
 import cats from './cats-data'
 // is the main component that we get
 class App extends Component { // JS class inharidence pattern that is given to us to
@@ -18,6 +21,11 @@ class App extends Component { // JS class inharidence pattern that is given to u
     this.state = {
       cats: []
     }
+    // I want to add a property to instances of this class called handleDislikeClick
+    //.. what it is going to be is the currently defined handleDislikeClick method that we see down there always bound
+    //.. to the instance (this)
+                              // the one defined within this file
+    this.handleDislikeClick = this.handleDislikeClick.bind(this)
   }
 
   //mocking a fetch request
@@ -29,6 +37,45 @@ class App extends Component { // JS class inharidence pattern that is given to u
       cats: cats
     })
   }
+
+  // Q: The two ways I can bind the two handle click events correctly:
+  // The reason why i am already bound here is tha t arrow functions inharite ***this*** from surrounding context on definition
+  //.. which means that if I am in the body of this arrow function I am binding approperatly
+  handleLikeClick = (event) => {
+    //console.log(event.target)// --> event.target is the thing that I clicked on
+    // all I have to do is change the status of the paticular cat from "undecided" to "liked"
+    // what information do I need here? the id of the cat.
+    // What do I need to do with the cat id?
+    // find the cat then use the spread opperator to and use indexOf to insert the cat
+    //.. I can also map and just put a conditional in my map that I am looking for a piticular cat and I am going to change it when I find it
+    //.. and then change the whole array
+    console.log("event.target.id is", event.target.id)
+    const cats = this.state.cats.map(cat => {
+      console.log("cat id is",cat.id)
+      console.log(cat.id == event.target.id)
+      if (cat.id == event.target.id) {
+        cat.status = "liked"
+        // I would only need to change it if that paticular cat
+      }
+      // I would need the return value because map is going to produce
+      //.. a copy of the original array
+      return cat
+    })
+    this.setState({
+      cats: cats
+    }, ()=>console.log(this.state.cats))
+    //}, ()=> console.log(this.state.cats.find(cat => cat.id === event.target.id)))// -> callback functions are optional. Set state takes a second argument of a callback will be invocked as soon as the state is actually changed
+    // I want to console log this paticular cat I want to see if they have changed from undecided to liked
+  }
+  // VVVV my this reference will not be approperate by the time I call this back
+      // If I dont like to use an arrow function, in my constructor can say that I want to add a property
+      //.. to instances of this class called handleDislikeClick.
+      //.. how this would work Please look above ^^^ in constructor!
+  handleDislikeClick() {
+    alert("disliked")
+  }
+
+
   //.. basiclly inharite from
   // crete this object this new class
   // I have inharite all of its properties in terms of its functionality and all of the
@@ -46,21 +93,15 @@ class App extends Component { // JS class inharidence pattern that is given to u
     // THE REASON IT IS A DOUBLE RENDER IS BECAUSE WE ARE CHANGING THE STATE!
     return (
       <div className="App">
-        <h1>Welcome to Cat Tinder</h1>
         {/* {} is a jsx curly bracket - run what is inside of here using JavaScript
         red curly brackets . this is jsx telling us to run on JavaScript */}
         {/*The following is one way to handle that initial load  - i know when this thing loads it is going to be an empty array*/}
-        { this.state.cats.length == 0 ?
-            "LOADING..." :
-          <div>
-          <div
-            className="LikedCats">Liked</div>
-            <DisplayCat
-            cat={this.state.cats[0]} />
-            <Cats cats={this.state.cats}/>
-            <div className="DislidedCats">Disliked</div>
-          </div>
-         }
+        <LikedCats cats={this.state.cats.filter(cat => cat.status === "liked")}/>
+        <CenterContainer
+          handleLikeClick={this.handleLikeClick}
+          handleDislikeClick={this.handleDislikeClick}
+          cats={this.state.cats.filter(cat => cat.status === "undecided")}/>
+        <DislikedCats cats={this.state.cats.filter(cat => cat.status === "disliked")}/>
          {/*console.log("Hello from our main App div")*/}
       </div>
     );
@@ -70,3 +111,14 @@ class App extends Component { // JS class inharidence pattern that is given to u
 export default App;
 // export just one thing and it is going to be this one thing App. App is coming out of this file
 // export what you want the rest of the world to see
+
+/*
+Checkout App Component:
+App is the right place to put our click handler because:
+  it is managing the state of cats upon which all of our other components are relying and
+  that is a good indecator that we need the functionality to live in App.js.
+  So we are going to be changing the state of cats.
+  Who owns the state of cats?
+  App does! and so App also needs to own the methods that allow us to make those changes.
+
+*/

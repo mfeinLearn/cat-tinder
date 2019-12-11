@@ -11,7 +11,11 @@ import CatCard from './CatCard'
 //.. lets grab that and make it availible as an object with in this paticular
 //.. component now I have a varable component called cat that I can refer to directly and I
 //.. can just pass it along to the next componet that needs it
-function DisplayCat({ cat }) {
+function DisplayCat({
+  cat,
+  handleDislikeClick,
+  handleLikeClick
+}) {
   const style = {
     borderStyle: "solid",
     borderColor: "blue",
@@ -19,9 +23,10 @@ function DisplayCat({ cat }) {
   }
   return ( // we could also return arrays of components or react fragments if we want
     <div style={style} className="DisplayCat">
-      <CatCard cat={cat}/>
-      <button>Like</button>
-      <button>Dislike</button>
+      <CatCard size={{maxHeight: 100, maxWidth: 100}}
+      cat={cat}/>
+      <button id={cat ? cat.id : "no-cat"} onClick={handleLikeClick}>Like</button>
+      <button onClick={handleDislikeClick}>Dislike</button>
     </div>
   )
 }
