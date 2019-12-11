@@ -2,8 +2,8 @@ import React from 'react'
 import CatCard from './CatCard'
 
 // Component is a property of react
-const DislikedCats = ({ cats }) => {
-  const catCards = cats.map(cat => <CatCard key={cat.name} cat={cat}/>)
+const DislikedCats = ({ cats, handleChangeOfHeart }) => {
+  const catCards = cats.map(cat => <CatCard handleChangeOfHeart={handleChangeOfHeart} key={cat.name} cat={cat}/>)
 
   return (
     <div className="DislikedCats">

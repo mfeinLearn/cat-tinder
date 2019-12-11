@@ -44,13 +44,14 @@ class App extends Component { // JS class inharidence pattern that is given to u
     // find the cat then use the spread opperator to and use indexOf to insert the cat
     //.. I can also map and just put a conditional in my map that I am looking for a piticular cat and I am going to change it when I find it
     //.. and then change the whole array
-    console.log(event.target.className)
-    const newStatus = event.target.className === "like-button" ? "liked" : "disliked"
-    console.log("event.target.id is", event.target.id)
+    let newStatus
+    if (event.target.tagName == "IMG") {newStatus = "undecided"}
+    else {newStatus = event.target.className === "like-button" ? "liked" : "disliked"}
+    //console.log("event.target.id is", event.target.id)
     const cats = this.state.cats.map(cat => {
-      console.log("cat id is",cat.id)
-      console.log(cat.id == event.target.id)
-      if (cat.id == event.target.id) {
+      //console.log("cat id is",cat.id)
+      //console.log(cat.id == event.target.id)
+      if (cat.id == event.target.id || cat.id == event.target.className) {
         // const because I am just only changing a property
         const newCat = Object.assign({}, cat) // we are going to produce a copy of cat
         newCat.status = newStatus
@@ -65,7 +66,7 @@ class App extends Component { // JS class inharidence pattern that is given to u
     })
     this.setState({
       cats: cats
-    }, ()=>console.log(this.state.cats))
+    })
     //}, ()=> console.log(this.state.cats.find(cat => cat.id === event.target.id)))// -> callback functions are optional. Set state takes a second argument of a callback will be invocked as soon as the state is actually changed
     // I want to console log this paticular cat I want to see if they have changed from undecided to liked
   }
@@ -78,7 +79,7 @@ class App extends Component { // JS class inharidence pattern that is given to u
   //.. things that I can do
   render() {
     //console.log("React: ",React)// react is a JavaScript
-    console.log("Rendering App")
+    //console.log("Rendering App")
     // ^^^ How many times are we going go see Rendering App in console log?
     // 2 because we initally define the state as an empty array then as soon as
     //.. the component mountes we fire this fake fetch then we set our state to the actual array.
@@ -96,7 +97,7 @@ class App extends Component { // JS class inharidence pattern that is given to u
         <CenterContainer
           handleLikeClick={this.handleLikeClick}
           cats={this.state.cats.filter(cat => cat.status === "undecided")}/>
-        <DislikedCats cats={this.state.cats.filter(cat => cat.status === "disliked")}/>
+        <DislikedCats handleChangeOfHeart={this.handleLikeClick} cats={this.state.cats.filter(cat => cat.status === "disliked")}/>
          {/*console.log("Hello from our main App div")*/}
       </div>
     );
