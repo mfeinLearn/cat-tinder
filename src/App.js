@@ -21,11 +21,6 @@ class App extends Component { // JS class inharidence pattern that is given to u
     this.state = {
       cats: []
     }
-    // I want to add a property to instances of this class called handleDislikeClick
-    //.. what it is going to be is the currently defined handleDislikeClick method that we see down there always bound
-    //.. to the instance (this)
-                              // the one defined within this file
-    this.handleDislikeClick = this.handleDislikeClick.bind(this)
   }
 
   //mocking a fetch request
@@ -49,17 +44,24 @@ class App extends Component { // JS class inharidence pattern that is given to u
     // find the cat then use the spread opperator to and use indexOf to insert the cat
     //.. I can also map and just put a conditional in my map that I am looking for a piticular cat and I am going to change it when I find it
     //.. and then change the whole array
+    console.log(event.target.className)
+    const newStatus = event.target.className === "like-button" ? "liked" : "disliked"
     console.log("event.target.id is", event.target.id)
     const cats = this.state.cats.map(cat => {
       console.log("cat id is",cat.id)
       console.log(cat.id == event.target.id)
       if (cat.id == event.target.id) {
-        cat.status = "liked"
+        // const because I am just only changing a property
+        const newCat = Object.assign({}, cat) // we are going to produce a copy of cat
+        newCat.status = newStatus
+        return newCat
         // I would only need to change it if that paticular cat
+      } else {
+        // I would need the return value because map is going to produce
+        //.. a copy of the original array
+        return cat
+
       }
-      // I would need the return value because map is going to produce
-      //.. a copy of the original array
-      return cat
     })
     this.setState({
       cats: cats
@@ -67,13 +69,7 @@ class App extends Component { // JS class inharidence pattern that is given to u
     //}, ()=> console.log(this.state.cats.find(cat => cat.id === event.target.id)))// -> callback functions are optional. Set state takes a second argument of a callback will be invocked as soon as the state is actually changed
     // I want to console log this paticular cat I want to see if they have changed from undecided to liked
   }
-  // VVVV my this reference will not be approperate by the time I call this back
-      // If I dont like to use an arrow function, in my constructor can say that I want to add a property
-      //.. to instances of this class called handleDislikeClick.
-      //.. how this would work Please look above ^^^ in constructor!
-  handleDislikeClick() {
-    alert("disliked")
-  }
+
 
 
   //.. basiclly inharite from
@@ -99,7 +95,6 @@ class App extends Component { // JS class inharidence pattern that is given to u
         <LikedCats cats={this.state.cats.filter(cat => cat.status === "liked")}/>
         <CenterContainer
           handleLikeClick={this.handleLikeClick}
-          handleDislikeClick={this.handleDislikeClick}
           cats={this.state.cats.filter(cat => cat.status === "undecided")}/>
         <DislikedCats cats={this.state.cats.filter(cat => cat.status === "disliked")}/>
          {/*console.log("Hello from our main App div")*/}

@@ -15,7 +15,6 @@ const CenterContainer = ({
       <div className="CenterContainer">
         <DisplayCat
           cat={cats[0]}
-          handleDislikeClick={handleDislikeClick}
           handleLikeClick={handleLikeClick}
           />
         <NextUpCats cats={cats.slice(1, 4)}/>

@@ -13,7 +13,6 @@ import CatCard from './CatCard'
 //.. can just pass it along to the next componet that needs it
 function DisplayCat({
   cat,
-  handleDislikeClick,
   handleLikeClick
 }) {
   const style = {
@@ -25,8 +24,8 @@ function DisplayCat({
     <div style={style} className="DisplayCat">
       <CatCard size={{maxHeight: 100, maxWidth: 100}}
       cat={cat}/>
-      <button id={cat ? cat.id : "no-cat"} onClick={handleLikeClick}>Like</button>
-      <button onClick={handleDislikeClick}>Dislike</button>
+      <button id={cat ? cat.id : "no-cat"} className="like-button" onClick={handleLikeClick}>Like</button>
+      <button id={cat ? cat.id : "no-cat"} className="dislike-button" onClick={handleLikeClick}>Dislike</button>
     </div>
   )
 }
